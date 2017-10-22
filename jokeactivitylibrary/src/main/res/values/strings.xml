@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">jokeactivitylibrary</string>
+
+    <string name="background_content_description">A background photo of a laughing woman pointing at the joke text.</string>
+</resources>
