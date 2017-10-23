@@ -39,7 +39,7 @@ public class JokeRepository {
     /**
      * A GSON root object that contains a list of jokes.
      */
-    class JokeRoot {
+    public static class JokeRoot {
         private List<String> jokes;
 
         public List<String> getJokes() {
