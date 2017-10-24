@@ -50,6 +50,15 @@ class JokeRetrieverAsyncTask extends AsyncTask<Void, Void, String> {
         try {
             JokeEndpoint.GetRandomJoke call = jokeEndpoint.getRandomJoke();
             JokeBean jokeBean = call.execute();
+
+            // Uncomment these lines to see the progress bar. Without sleeping, the jokes will
+            // be picked up so fast that it's hard to see the progress bar.
+//            try {
+//                Thread.sleep(10_000);
+//            } catch (InterruptedException ex) {
+//                Log.e(LOG_TAG, "doInBackground: Failed to sleep", ex);
+//            }
+
             return jokeBean.getJoke();
         } catch (IOException ex) {
             Log.e(LOG_TAG, "doInBackground: Failed to communicate with the cloud.", ex);

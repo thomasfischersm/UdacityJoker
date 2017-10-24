@@ -2,26 +2,51 @@ package com.udacity.gradle.builditbigger;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private ProgressBar progressBar;
+
+    private InterstitialAd interstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                JokeGenerator.retrieveJokes();
-//            }
-//        }).start();
+        progressBar = findViewById(R.id.progress_bar);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (BuildConfig.FLAVOR.equals(ProductFlavor.free.name())) {
+            interstitialAd = new InterstitialAd(this);
+            interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+            interstitialAd.loadAd(new AdRequest.Builder().build());
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,8 +71,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-//        Toast.makeText(this, joke, Toast.LENGTH_LONG).show();
-        new JokeRetrieverAsyncTask(this).execute();
+        if (BuildConfig.FLAVOR.equals(ProductFlavor.free.name())) {
+            if (interstitialAd.isLoaded()) {
+                interstitialAd.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdClosed() {
+                        progressBar.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                reallyTellJoke();
+                            }
+                        });
+                    }
+                });
+                interstitialAd.show();
+            } else {
+                Log.i(LOG_TAG, "tellJoke: Failed to load interstitial ad");
+            }
+        } else {
+            reallyTellJoke();
+        }
     }
 
+    private void reallyTellJoke() {
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminate(true);
+        progressBar.invalidate();
+        ((RelativeLayout) progressBar.getParent()).invalidate();
+
+        new JokeRetrieverAsyncTask(this).execute();
+    }
 }
