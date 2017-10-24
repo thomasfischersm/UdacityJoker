@@ -1,6 +1,5 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -62,7 +61,6 @@ class JokeRetrieverAsyncTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String joke) {
         Intent intent = new Intent(context, JokeActivity.class);
-        intent.setComponent(new ComponentName("com.udacity.gradle.builditbigger", "com.playposse.jokeactivitylibrary.JokeActivity"));
         intent.putExtra(JokeActivity.JOKE_EXTRA, joke);
         context.startActivity(intent);
         Log.i(LOG_TAG, "onPostExecute: JokeRetrieverAsyncTask is complete.");

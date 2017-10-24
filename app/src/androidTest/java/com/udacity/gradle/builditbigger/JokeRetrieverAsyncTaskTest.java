@@ -31,13 +31,13 @@ public class JokeRetrieverAsyncTaskTest {
 
     private static final String LOG_TAG = JokeRetrieverAsyncTaskTest.class.getSimpleName();
 
-    private Context context;
+    private Context targetContext;
     private Instrumentation.ActivityMonitor activityMonitor;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Before
     public void setup() {
-        context = InstrumentationRegistry.getContext();
+        targetContext = InstrumentationRegistry.getTargetContext();
 
         // The statement below requires a higher API version than is defined for the app. That's
         // okay because we control the environment in which this test is run.
@@ -47,7 +47,7 @@ public class JokeRetrieverAsyncTaskTest {
 
     @Test
     public void retrieveRandomJoke() throws ExecutionException, InterruptedException {
-        JokeRetrieverAsyncTask jokeRetrieverAsyncTask = new JokeRetrieverAsyncTask(context);
+        JokeRetrieverAsyncTask jokeRetrieverAsyncTask = new JokeRetrieverAsyncTask(targetContext);
         jokeRetrieverAsyncTask.execute();
 
         // Wait for the AsyncTask to complete.
