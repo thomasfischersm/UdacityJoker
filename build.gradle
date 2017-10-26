@@ -21,6 +21,9 @@ allprojects {
     }
 }
 
+// Got help with this from a forum mentor:
+// https://discussions.udacity.com/t/build-it-bigger-questions-on-the-review/404631
+
 task androidTestWithAppengine (dependsOn: "startAppEngine") {
     dependsOn ":app:connectedAndroidTest"
     finalizedBy ":backend:appengineStop"
