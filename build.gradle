@@ -20,3 +20,17 @@ allprojects {
         }
     }
 }
+
+task androidTestWithAppengine (dependsOn: "startAppEngine") {
+    dependsOn ":app:connectedAndroidTest"
+    finalizedBy ":backend:appengineStop"
+}
+
+task startAppEngine (dependsOn: ":backend:appengineRun") {
+    project(":backend").afterEvaluate { backend ->
+        backend.extensions.appengine.daemon = true
+    }
+    doLast {
+        println "Starting App Engine"
+    }
+}
