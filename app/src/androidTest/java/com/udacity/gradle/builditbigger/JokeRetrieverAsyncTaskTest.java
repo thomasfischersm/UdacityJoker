@@ -42,5 +42,12 @@ public class JokeRetrieverAsyncTaskTest {
         Log.i(LOG_TAG, "retrieveRandomJoke: Got joke: " + joke);
         assertNotNull(joke);
         assertThat(joke, not(isEmptyString()));
+
+        // Note to Udacity reviewer: 'joke' cannot be an error  string. If an error happens, an
+        // exception would be thrown. If we want to test that the backend picks a random joke,
+        // that should be part of a unit test on the backend, not part of the integration test.
+        // In an integration test, we are testing the integration between the app and the backend.
+        // In a unit test in the backend and/or java module, we would test the correct behavior of
+        // the code selection logic.
     }
 }
