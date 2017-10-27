@@ -49,5 +49,8 @@ public class JokeRetrieverAsyncTaskTest {
         // In an integration test, we are testing the integration between the app and the backend.
         // In a unit test in the backend and/or java module, we would test the correct behavior of
         // the code selection logic.
+
+        // For more information, please refer to this forum discussion:
+        // https://discussions.udacity.com/t/verify-that-joke-is-retrieved/405193/9
     }
 }
